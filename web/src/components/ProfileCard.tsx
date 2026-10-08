@@ -89,15 +89,7 @@ export default function ProfileCard({
         )}
       </dl>
 
-      {/* 操作按钮 */}
-      <div className="mt-6 flex gap-3">
-        <button className="flex-1 rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
-          关注
-        </button>
-        <button className="flex-1 rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700">
-          发消息
-        </button>
-      </div>
+      
     </div>
   )
 }
