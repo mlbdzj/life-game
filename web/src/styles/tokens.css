@@ -1,0 +1,73 @@
+/* 设计 token:所有颜色/圆角/阴影集中在这里,组件只引用变量。
+   暗色模式靠 prefers-color-scheme 覆盖同一组变量,组件无需额外判断。 */
+
+:root {
+  color-scheme: light dark;
+
+  /* 表面 / 边框 */
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-inset: #f8fafc;
+  --track: #f1f5f9;
+  --row-hover: #f8fafc;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* 文字 */
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --text-faint: #94a3b8;
+
+  /* 主色 */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-soft: rgba(37, 99, 235, 0.18);
+  --danger: #ef4444;
+
+  /* 状态色 */
+  --ok-bg: #ecfdf5;
+  --ok-fg: #059669;
+  --warn-bg: #fffbeb;
+  --warn-fg: #d97706;
+  --bad-bg: #fef2f2;
+  --bad-fg: #ef4444;
+  --neutral-chip-bg: #f1f5f9;
+  --neutral-chip-fg: #475569;
+
+  /* 尺寸 */
+  --radius: 16px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #1e293b;
+    --surface-2: #0f172a;
+    --surface-inset: rgba(15, 23, 42, 0.4);
+    --track: #334155;
+    --row-hover: rgba(51, 65, 85, 0.3);
+    --border: #334155;
+    --border-strong: #475569;
+
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-faint: #64748b;
+
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --primary-soft: rgba(59, 130, 246, 0.3);
+    --danger: #f87171;
+
+    --ok-bg: rgba(16, 185, 129, 0.1);
+    --ok-fg: #34d399;
+    --warn-bg: rgba(245, 158, 11, 0.1);
+    --warn-fg: #fbbf24;
+    --bad-bg: rgba(239, 68, 68, 0.1);
+    --bad-fg: #f87171;
+    --neutral-chip-bg: #334155;
+    --neutral-chip-fg: #94a3b8;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+}
