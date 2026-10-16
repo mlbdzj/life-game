@@ -8,6 +8,8 @@ interface AppLayoutProps {
   navItems: NavItem[];
   activeId: string;
   onSelectNav: (id: string) => void;
+  sidebarCollapsed: boolean;
+  onToggleSidebar: () => void;
   children: ReactNode;
 }
 
@@ -16,14 +18,21 @@ export function AppLayout({
   navItems,
   activeId,
   onSelectNav,
+  sidebarCollapsed,
+  onToggleSidebar,
   children,
 }: AppLayoutProps) {
   return (
     <div className="flex h-screen flex-col bg-gray-50">
-      <Header title={title} />
+      <Header title={title} onToggleSidebar={onToggleSidebar} />
 
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar items={navItems} activeId={activeId} onSelect={onSelectNav} />
+        <Sidebar
+          items={navItems}
+          activeId={activeId}
+          onSelect={onSelectNav}
+          collapsed={sidebarCollapsed}
+        />
         <main className="flex-1 overflow-auto p-6">{children}</main>
       </div>
 

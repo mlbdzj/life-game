@@ -10,6 +10,7 @@ const NAV_ITEMS: NavItem[] = [
 
 export default function App() {
   const [activeId, setActiveId] = useState("dashboard");
+  const [collapsed, setCollapsed] = useState(false);
 
   const current = NAV_ITEMS.find((item) => item.id === activeId);
 
@@ -19,6 +20,8 @@ export default function App() {
       navItems={NAV_ITEMS}
       activeId={activeId}
       onSelectNav={setActiveId}
+      sidebarCollapsed={collapsed}
+      onToggleSidebar={() => setCollapsed((c) => !c)}
     >
       <h2 className="mt-0 mb-2 text-xl font-semibold text-gray-900">
         {current?.label}
