@@ -1,119 +1,122 @@
-import { useMemo, useState } from 'react'
-import DataActions from './components/DataActions'
-import ItemForm from './components/ItemForm'
-import ItemList from './components/ItemList'
-import StatsBar from './components/StatsBar'
-import { useItems } from './hooks/useItems'
-import { STATUS_OPTIONS, type ItemDraft } from './types'
+import { useState } from 'react'
+import heroImg from './assets/hero.png'
+import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+import './App.css'
 
-export default function App() {
-  const { items, addItem, updateItem, removeItem, replaceAll } = useItems()
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [query, setQuery] = useState('')
-  const [category, setCategory] = useState('全部')
-  const [status, setStatus] = useState('全部')
-
-  const editing = items.find((it) => it.id === editingId) ?? null
-
-  const categories = useMemo(() => {
-    const set = new Set(items.map((it) => it.category).filter(Boolean))
-    return ['全部', ...[...set].sort((a, b) => a.localeCompare(b, 'zh-CN'))]
-  }, [items])
-
-  const visible = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return items.filter((it) => {
-      if (category !== '全部' && it.category !== category) return false
-      if (status !== '全部' && it.status !== status) return false
-      if (!q) return true
-      const haystack = [it.name, it.location, it.notes, it.tags.join(' ')]
-        .join(' ')
-        .toLowerCase()
-      return haystack.includes(q)
-    })
-  }, [items, query, category, status])
-
-  const handleSubmit = (draft: ItemDraft) => {
-    if (editing) {
-      updateItem(editing.id, draft)
-      setEditingId(null)
-    } else {
-      addItem(draft)
-    }
-  }
-
-  const handleRemove = (id: string) => {
-    const target = items.find((it) => it.id === id)
-    if (!target) return
-    if (!window.confirm(`确定删除「${target.name}」吗?`)) return
-    removeItem(id)
-    if (editingId === id) setEditingId(null)
-  }
-
-  const handleEdit = (id: string) => {
-    setEditingId(id)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+function App() {
+  const [count, setCount] = useState(0)
 
   return (
-    <div className="page">
-      <div className="app-shell">
-        <header className="app-header">
-          <div>
-            <h1 className="app-title">Life Game</h1>
-            <p className="app-subtitle">物品状态 · 记录你拥有的一切</p>
-          </div>
-          <DataActions items={items} onReplace={replaceAll} />
-        </header>
+    <>
+      <section id="center">
+        <div className="hero">
+          <img src={heroImg} className="base" width="170" height="179" alt="" />
+          <img src={reactLogo} className="framework" alt="React logo" />
+          <img src={viteLogo} className="vite" alt="Vite logo" />
+        </div>
+        <div>
+          <h1>Get started</h1>
+          <p>
+            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
+          </p>
+        </div>
+        <button
+          type="button"
+          className="counter"
+          onClick={() => setCount((count) => count + 1)}
+        >
+          Count is {count}
+        </button>
+      </section>
 
-        <StatsBar items={items} />
+      <div className="ticks"></div>
 
-        <ItemForm
-          key={editing?.id ?? 'new'}
-          item={editing}
-          onSubmit={handleSubmit}
-          onCancel={() => setEditingId(null)}
-        />
+      <section id="next-steps">
+        <div id="docs">
+          <svg className="icon" role="presentation" aria-hidden="true">
+            <use href="/icons.svg#documentation-icon"></use>
+          </svg>
+          <h2>Documentation</h2>
+          <p>Your questions, answered</p>
+          <ul>
+            <li>
+              <a href="https://vite.dev/" target="_blank">
+                <img className="logo" src={viteLogo} alt="" />
+                Explore Vite
+              </a>
+            </li>
+            <li>
+              <a href="https://react.dev/" target="_blank">
+                <img className="button-icon" src={reactLogo} alt="" />
+                Learn more
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div id="social">
+          <svg className="icon" role="presentation" aria-hidden="true">
+            <use href="/icons.svg#social-icon"></use>
+          </svg>
+          <h2>Connect with us</h2>
+          <p>Join the Vite community</p>
+          <ul>
+            <li>
+              <a href="https://github.com/vitejs/vite" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#github-icon"></use>
+                </svg>
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="https://chat.vite.dev/" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#discord-icon"></use>
+                </svg>
+                Discord
+              </a>
+            </li>
+            <li>
+              <a href="https://x.com/vite_js" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#x-icon"></use>
+                </svg>
+                X.com
+              </a>
+            </li>
+            <li>
+              <a href="https://bsky.app/profile/vite.dev" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#bluesky-icon"></use>
+                </svg>
+                Bluesky
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
 
-        <section className="list-section">
-          <div className="toolbar">
-            <input
-              className="control toolbar__search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="搜索名称、位置、备注、标签"
-            />
-            <select
-              className="control"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              {categories.map((option) => (
-                <option key={option} value={option}>
-                  {option === '全部' ? '全部分类' : option}
-                </option>
-              ))}
-            </select>
-            <select
-              className="control"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option value="全部">全部状态</option>
-              {STATUS_OPTIONS.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            <span className="toolbar__count">
-              {visible.length} / {items.length} 条
-            </span>
-          </div>
-
-          <ItemList items={visible} onEdit={handleEdit} onRemove={handleRemove} />
-        </section>
-      </div>
-    </div>
+      <div className="ticks"></div>
+      <section id="spacer"></section>
+    </>
   )
 }
+
+export default App
