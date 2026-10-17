@@ -1,18 +1,12 @@
+import { NavLink } from "react-router-dom";
 import type { NavItem } from "../../types/layout";
 
 interface SidebarProps {
   items: NavItem[];
-  activeId: string;
-  onSelect: (id: string) => void;
   collapsed: boolean;
 }
 
-export function Sidebar({
-  items,
-  activeId,
-  onSelect,
-  collapsed,
-}: SidebarProps) {
+export function Sidebar({ items, collapsed }: SidebarProps) {
   return (
     <aside
       className={
@@ -22,26 +16,24 @@ export function Sidebar({
     >
       <nav>
         <ul className="m-0 list-none p-0">
-          {items.map((item) => {
-            const isActive = item.id === activeId;
-            return (
-              <li key={item.id} className="mb-1">
-                <button
-                  type="button"
-                  onClick={() => onSelect(item.id)}
-                  className={
-                    "block w-full rounded-md py-2 text-sm transition-colors " +
-                    (collapsed ? "px-2 text-center " : "px-3 text-left ") +
-                    (isActive
-                      ? "bg-blue-50 font-medium text-blue-600"
-                      : "text-gray-900 hover:bg-gray-100")
-                  }
-                >
-                  {collapsed ? item.label.charAt(0) : item.label}
-                </button>
-              </li>
-            );
-          })}
+          {items.map((item) => (
+            <li key={item.id} className="mb-1">
+              <NavLink
+                to={item.path}
+                end={item.path === "/"}
+                title={collapsed ? item.label : undefined}
+                className={({ isActive }) =>
+                  "block rounded-md py-2 text-sm transition-colors " +
+                  (collapsed ? "px-2 text-center " : "px-3 text-left ") +
+                  (isActive
+                    ? "bg-blue-50 font-medium text-blue-600"
+                    : "text-gray-900 hover:bg-gray-100")
+                }
+              >
+                {collapsed ? item.label.charAt(0) : item.label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
     </aside>
